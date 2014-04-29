@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/29 18:33:15 by fbeck             #+#    #+#             */
-/*   Updated: 2014/04/29 20:24:45 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/04/29 20:44:16 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int				main(int ac, char **av)
 		printf("filename typescript\n");
 	if (e.index_cmd)
 		printf("CMD : %s\n", av[e.index_cmd]);
+	ft_get_pty();
 
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/29 18:33:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/04/29 20:25:01 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/04/29 21:18:26 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,13 @@ typedef struct			s_env
 int			ft_parse_args(t_env *e, int ac);
 
 /*
+*	ft_get_pty.c
+*/
+int			ft_get_pty(void);
+/*
 *	ft_error.c
 */
 void		ft_op_err(char c);
+
 
 #endif
