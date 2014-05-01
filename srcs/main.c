@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/29 18:33:15 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/01 12:38:59 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/01 22:12:47 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ void			ft_get_shell(t_env *e, char **envp)
 	}
 }
 
+t_env			*ft_get_env(void)
+{
+	static t_env	env;
+	return (&env);
+}
+
 static void		ft_init_env(t_env *e, char **av)
 {
 	e->index_cmd = 0;
@@ -35,29 +41,31 @@ static void		ft_init_env(t_env *e, char **av)
 	e->op.q = 0;
 	e->op.err = 0;
 	e->av = av;
+	e->pid_zombie = 0;
 }
 
 int				main(int ac, char **av, char **envp)
 {
-	t_env		e;
+	t_env		*e;
 
-	ft_init_env(&e, av);
-	if (!ft_parse_args(&e, ac))
+	e = ft_get_env();
+	ft_init_env(e, av);
+	if (!ft_parse_args(e, ac))
 		return (0);
-	e.shell = "/bin/sh";
-	ft_get_shell(&e, envp);
-	printf("SHELL IS %s\n",e.shell );
-	printf("OPTIONS! -a %d -q %d \n", e.op.a, e.op.q);
-	if (e.filename)
-		printf("filename %s \n", e.filename);
+	e->shell = "/bin/sh";
+	ft_get_shell(e, envp);
+	printf("SHELL IS %s\n",e->shell );
+	printf("OPTIONS! -a %d -q %d \n", e->op.a, e->op.q);
+	if (e->filename)
+		printf("filename %s \n", e->filename);
 	else
 		printf("filename typescript\n");
-	if (e.index_cmd)
-		printf("CMD : %s\n", av[e.index_cmd]);
+	if (e->index_cmd)
+		printf("CMD : %s\n", av[e->index_cmd]);
 
-	if (ft_open_file(&e) < 0)
+	if (ft_open_file(e) < 0)
 		return (0);
-	ft_script(&e);
+	ft_script(e);
 
 	printf("END\n");
 
