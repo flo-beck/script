@@ -6,7 +6,7 @@
 #    By: fbeck <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 12:38:40 by fbeck             #+#    #+#              #
-#    Updated: 2014/04/29 20:53:58 by fbeck            ###   ########.fr        #
+#    Updated: 2014/05/01 12:42:41 by fbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,11 @@ LIBS				= -L libft/ -lft
 SRC					= srcs/main.c \
 					  srcs/error.c \
 					  srcs/ft_parse_args.c \
+					  srcs/ft_open_file.c \
+					  srcs/ft_mode_raw.c \
 					  srcs/ft_get_pty.c \
+					  srcs/ft_script.c \
+					  srcs/ft_exec_shell.c \
 
 DIR_SRC				= srcs
 DIR_INC				= includes
