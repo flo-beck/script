@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/29 18:33:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/01 22:17:47 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/02 17:58:51 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>//TAKE OUT!!!!
 
 # define USE_MSG		"usage: script [-aq] [file [command ...]]"
+# define B_SIZE		(108)
 
 typedef struct			s_ops
 {
@@ -86,7 +87,7 @@ void		ft_op_err(char c);
 */
 void		ft_close_all(t_env *e);
 void		ft_shutdown(t_env *e, int pid);
-void		ft_close(int whatisthis);
+void		ft_close_file(int whatisthis);
 void				ft_sigchild(int qqc);
 
 t_env			*ft_get_env(void);

@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/30 12:17:14 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/01 22:22:29 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/02 17:51:28 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include "libft.h"
 #include "script.h"
 
-void			ft_put_head(int fd)
+void			ft_put_head(t_env *e, int fd)
 {
 	struct timeval	tp;
 	struct timezone	tzp;
@@ -29,6 +32,11 @@ void			ft_put_head(int fd)
 	{
 		write(fd, "Script started on ", 18);
 		write(fd, ctime(&tp.tv_sec), 25);
+		write(1, "Script started, output file is ", 31);
+		if (e->filename)
+			ft_putendl_fd(e->filename, 1);
+		else
+			ft_putendl_fd("typescript", 1);
 	}
 }
 
@@ -40,12 +48,10 @@ void			ft_script(t_env *e)
 	int			pid;
 
 	signal(SIGCHLD, ft_sigchild);
-	if (ft_get_pty(ptynamebuf, &fd_master))
-		printf("Could not open free PTY pair!\n");
-
-	if ((fd_slave = open(ptynamebuf, O_RDWR)) < 0) // OPEN SLAVE
+	if (((ft_get_pty(ptynamebuf, &fd_master)) < 0)
+			|| ((fd_slave = open(ptynamebuf, O_RDWR)) < 0 ))
 	{
-		printf("FAILED TO OPEN SLAVE\n");
+		ft_putendl("Could not open a free PTY");
 		return ;
 	}
 	e->fd_master = fd_master;
@@ -54,31 +60,28 @@ void			ft_script(t_env *e)
 	go_raw(0);
 	if ((pid = fork()) == -1)
 	{
-		//PROBLEMO
+		ft_putendl("Error: failed to properly fork");
+		return ;
 	}
 
 	if (!pid) // CHILD PROCESS
 	{
-		printf("CHILD1\n");
 		if (!e->op.q)
-			ft_put_head(e->fd_file);
+			ft_put_head(e, e->fd_file);
+		close(e->fd_file);
+		if ((setsid() == -1) || (ioctl(e->fd_slave, TIOCSCTTY, NULL) == -1))
+		{
+			ft_putendl("Error: Could not modify controlling TTY");
+			return ;
+		}
 		dup2(fd_slave, 0);
 		dup2(fd_slave, 1);
 		dup2(fd_slave, 2);
-		close(e->fd_file);
+		close(e->fd_slave);
 		ft_exec_shell(e, fd_slave);
-		/*close(e->fd_file);
-		  close(fd_master);
-		  close(fd_slave);*/
-//		reset_terminal(0);
 	}
 	else // PARENT PROCESS
 	{
 		ft_manage_input_output(e, pid);
-/*		ft_close_all(e);
-		close(e->fd_file);
-		close(fd_master);
-		close(fd_slave);
-		reset_terminal(0);*/
 	}
 }

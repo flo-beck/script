@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/01 22:17:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/01 22:18:14 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/02 16:48:00 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ static void			ft_put_foot(t_env *e, int fd)
 		ft_putstr_fd("Script done on ", fd);
 		ft_putendl_fd(ctime(&tp.tv_sec), fd);
 		ft_putstr_fd("Script done, output file is ", 1);
-		ft_putendl_fd(e->filename, 1);
+		if (e->filename)
+			ft_putendl_fd(e->filename, 1);
+		else
+			ft_putendl_fd("typescript", 1);
 	}
 }
 
@@ -51,7 +54,7 @@ void				ft_shutdown(t_env *e, int pid)
 	_exit(1);
 }
 
-void				ft_close(int whatisthis)
+void				ft_close_file(int whatisthis)
 {
 	t_env 			*e;
 
