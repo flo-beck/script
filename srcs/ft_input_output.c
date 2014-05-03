@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/01 19:13:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/03 16:41:38 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/03 21:31:04 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft.h"
 #include "script.h"
 
-void		ft_resize(int sig)
+static void				ft_resize(int sig)
 {
 	struct winsize		ws;
 	t_env				*e;
@@ -24,15 +24,15 @@ void		ft_resize(int sig)
 	(void)sig;
 	e = ft_get_env();
 	if (ioctl(0, TIOCGWINSZ, &ws) != -1)
-		 ioctl(e->fd_master, TIOCSWINSZ, &ws);
+		ioctl(e->fd_master, TIOCSWINSZ, &ws);
 }
 
-void		ft_write_output(t_env *e)
+static void				ft_write_output(t_env *e)
 {
-	char	buf[B_SIZE];
-	int		len;
+	char				buf[B_SIZE];
+	int					len;
 
-	ft_signal(SIGUSR1, ft_close_file); // CLOSE IF RECEIVES SIGNAL
+	ft_signal(SIGUSR1, ft_close_file);
 	while (42)
 	{
 		ft_bzero(buf, B_SIZE);
@@ -44,12 +44,13 @@ void		ft_write_output(t_env *e)
 	}
 }
 
-void		ft_write_input(t_env *e, int pid_child2)
+static void				ft_write_input(t_env *e, int pid_child2)
 {
-	char	buf[B_SIZE];
-	int		len;
+	char				buf[B_SIZE];
+	int					len;
 
 	ft_signal(SIGWINCH, ft_resize);
+	ft_resize(0);
 	e->pid_zombie = pid_child2;
 	while (42)
 	{
@@ -61,27 +62,21 @@ void		ft_write_input(t_env *e, int pid_child2)
 	}
 }
 
-void		ft_manage_input_output( t_env *e, int pid_child1)
+void					ft_manage_input_output(t_env *e, int pid_child1)
 {
-	int		pid_child2;
+	int					pid_child2;
 
-//	printf("PARENT1\n");
-	if ((pid_child2 = fork()) == -1 ) // PARENT PROCESS AGAIN
+	close(e->fd_slave);
+	if ((pid_child2 = fork()) == -1)
 	{
-		//UH OH SPAGHETTIOS
-	//	printf("UH OH SPAGHETTIOS\n");
 		kill(pid_child1, SIGKILL);
 		_exit(-1);
 	}
 	else
 	{
-		if (!pid_child2) // CHILD 2
-		{
+		if (!pid_child2)
 			ft_write_output(e);
-		}
-		else // PARENT STILL
-		{
+		else
 			ft_write_input(e, pid_child2);
-		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/01 22:17:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/03 17:13:34 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/03 21:26:40 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void				ft_shutdown(t_env *e, int pid)
 
 void				ft_close_file(int whatisthis)
 {
-	t_env 			*e;
+	t_env			*e;
 
 	(void)whatisthis;
 	e = ft_get_env();

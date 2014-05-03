@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/29 20:15:07 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/01 10:53:39 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/03 21:33:29 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static t_ops	ft_read_options(t_ops op, char *av)
 	return (op);
 }
 
-int			ft_parse_args(t_env *e, int ac)
+int				ft_parse_args(t_env *e, int ac)
 {
-	int		i;
+	int			i;
 
 	if (ac > 1)
 	{
