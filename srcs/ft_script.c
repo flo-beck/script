@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/30 12:17:14 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/02 17:51:28 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/03 17:02:33 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void			ft_script(t_env *e)
 	static char	ptynamebuf[128];	/* ioctl knows length */
 	int			pid;
 
-	signal(SIGCHLD, ft_sigchild);
+	ft_signal(SIGCHLD, ft_sigchild);
 	if (((ft_get_pty(ptynamebuf, &fd_master)) < 0)
 			|| ((fd_slave = open(ptynamebuf, O_RDWR)) < 0 ))
 	{
@@ -57,7 +57,7 @@ void			ft_script(t_env *e)
 	e->fd_master = fd_master;
 	e->fd_slave = fd_slave;
 
-	go_raw(0);
+	go_raw(0, e);
 	if ((pid = fork()) == -1)
 	{
 		ft_putendl("Error: failed to properly fork");
@@ -84,4 +84,5 @@ void			ft_script(t_env *e)
 	{
 		ft_manage_input_output(e, pid);
 	}
+	reset_terminal(0, e);
 }

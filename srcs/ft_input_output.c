@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/01 19:13:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/02 17:57:10 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/03 16:41:38 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		ft_write_output(t_env *e)
 	char	buf[B_SIZE];
 	int		len;
 
-	signal(SIGUSR1, ft_close_file); // CLOSE IF RECEIVES SIGNAL
+	ft_signal(SIGUSR1, ft_close_file); // CLOSE IF RECEIVES SIGNAL
 	while (42)
 	{
 		ft_bzero(buf, B_SIZE);
@@ -49,7 +49,7 @@ void		ft_write_input(t_env *e, int pid_child2)
 	char	buf[B_SIZE];
 	int		len;
 
-	signal(SIGWINCH, ft_resize);
+	ft_signal(SIGWINCH, ft_resize);
 	e->pid_zombie = pid_child2;
 	while (42)
 	{

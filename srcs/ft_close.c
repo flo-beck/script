@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/01 22:17:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/02 16:48:00 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/03 17:13:34 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void				ft_shutdown(t_env *e, int pid)
 		ft_put_foot(e, e->fd_file);
 	}
 	close(e->fd_file);
+	reset_terminal(0, e);
 	_exit(1);
 }
 
@@ -61,6 +62,7 @@ void				ft_close_file(int whatisthis)
 	(void)whatisthis;
 	e = ft_get_env();
 	close(e->fd_file);
+	reset_terminal(0, e);
 	_exit(-1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fbeck <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/04/29 18:33:56 by fbeck             #+#    #+#             */
-/*   Updated: 2014/05/02 17:58:51 by fbeck            ###   ########.fr       */
+/*   Updated: 2014/05/03 17:01:08 by fbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # define SCRIPT_H
 
 # include <stdio.h>//TAKE OUT!!!!
+# include <signal.h>
+# include <termios.h>
 
 # define USE_MSG		"usage: script [-aq] [file [command ...]]"
 # define B_SIZE		(108)
@@ -30,6 +32,7 @@ typedef struct			s_env
 {
 	char				**envp;
 	char				*shell;
+	struct termios		term;
 	char				*filename;
 	int					fd_file;
 	int					index_cmd;
@@ -53,8 +56,8 @@ int			ft_open_file(t_env *e);
 /*
 **	ft_mode_raw.c
 */
-int			go_raw(int fd);
-int			reset_terminal(int fd);
+int			go_raw(int fd, t_env *e);
+int			reset_terminal(int fd, t_env *e);
 
 /*
 **	ft_get_pty.c
@@ -77,6 +80,11 @@ void		ft_exec_shell(t_env *e, int fd_slave);
 void		ft_manage_input_output(t_env *e, int pid_child1);
 void		ft_write_input(t_env *e, int pid);
 void		ft_write_ouput(t_env *e);
+/*
+**	ft_signal.c
+*/
+sig_t					ft_signal(int s, void (*func)(int));
+
 /*
 **	ft_error.c
 */

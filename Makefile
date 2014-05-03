@@ -6,7 +6,7 @@
 #    By: fbeck <marvin@42.fr>                       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 12:38:40 by fbeck             #+#    #+#              #
-#    Updated: 2014/05/01 20:52:21 by fbeck            ###   ########.fr        #
+#    Updated: 2014/05/03 16:42:29 by fbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC					= srcs/main.c \
 					  srcs/ft_mode_raw.c \
 					  srcs/ft_get_pty.c \
 					  srcs/ft_script.c \
+					  srcs/ft_signal.c \
 					  srcs/ft_exec_shell.c \
 					  srcs/ft_input_output.c \
 					  srcs/ft_close.c \
